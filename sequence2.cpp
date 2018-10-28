@@ -9,6 +9,22 @@ sequence::sequence(size_type entry = CAPACITY) {
 	data = new value_type[entry];
 }
 
+sequence::sequence(const sequence& entry)
+{
+	// allocate a new amount of memory for the new array. 
+	data = new value_type[entry.capacity];
+	// copy over the new capacity for the  new sequence
+	capacity = entry.capacity;
+	// copy over the amount used for the new sequence
+	used = entry.used;
+	// copy over the current_index for the new sequence
+	current_index = entry.current_index;
+	// copy each datum from the copy sequence to the new sequence
+	for(size_t i = 0; i < entry.used; i++){
+		data[i] = entry.data[i];
+	}
+}
+
 void sequence::start() {
 
 	//assert(size() < CAPACITY);
