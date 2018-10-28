@@ -56,9 +56,32 @@ void sequence::attach(const value_type& entry) {
 		}
 }
 
-void sequence::remove_current() {
-	for (int i = current_index; i < used - 1; i++) {
-		data[i] = data[i + 1];
+void sequence::remove_current()
+{
+	value_type* data_replace = new value_type[capacity];
+	// the slot one past the current index, this will be the new current index.
+	size_t past_current = current_index + 1;
+	// add each datum from the old array into the new array
+	// until we get to the current index.
+	if(!is_item()){
+		// if we are currently at nothing, there is nothing to remove.
+		return;
 	}
+	for(size_t i = 0; i < current_index; i++) {
+		data_replace[i] = data[i];
+	}
+	// start copying from one past the current_index.
+	// this effectively makes a copy of the previous data set without the value originally
+	// pointed to by the current pointer.
+	for(size_t j = past_current; j < used; j++){
+		// since the new array is one less, the array indexes are
+		// one minus that on the old array.
+		data_replace[j-1] = data[j];
+	}
+	// delete the data pointed to by the class pointer.
+	delete [] data;
+	// reassign the class pointer to the new array with less items in it.
+	data = data_replace;
+	// decrement the total used by 1, since we removed an item.
 	used--;
 }
