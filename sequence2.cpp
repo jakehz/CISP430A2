@@ -24,6 +24,22 @@ void sequence::start() {
 	}
 }
 
+void sequence::resize(size_type new_capacity){
+	if(new_capacity > used){
+		// allocate a new array with the capacity specified in the parameter.
+		value_type* larger_data = new value_type[new_capacity];
+		// put each datum into the new, larger array
+		for(size_t i = 0; i < used; i++){
+			larger_data[i] = data[i];
+		}
+		// delete the data from the original array.
+		delete [] data;
+		// assign the array pointer to the new, larger array.
+		data = larger_data;
+		// set the capacity to the new size
+		capacity = new_capacity;
+	}
+}
 void sequence::advance() {
 	assert(current_index >= used);
 	current_index++;
